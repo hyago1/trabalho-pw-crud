@@ -18,9 +18,19 @@ public class produto {
     int id;
     int preco;
     String nome;
-    String Descricao;
+    String descricao;
     int estoque;
 
 
+    public produto(String nome, String descricao    )
+    {
+        this.nome = nome;
+        this.descricao = descricao;
 
+    }
+
+
+    public produto() {
+
+    }
 }

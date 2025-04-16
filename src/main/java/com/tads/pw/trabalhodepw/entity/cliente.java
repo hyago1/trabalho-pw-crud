@@ -1,14 +1,13 @@
 package com.tads.pw.trabalhodepw.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+
+@Entity(name = "cliente")
+@Table(name = "cliente")
 @Getter
 @Setter
 public class cliente {
@@ -19,6 +18,15 @@ public class cliente {
         private String nome;
         private String email;
         private String senha;
+
+        public cliente( String nome, String email, String senha) {
+                this.nome = nome;
+                this.email = email;
+                this.senha = senha;
+        }
+
+        public cliente() {}
+
 }
 
 
