@@ -16,8 +16,7 @@ public class logistaService {
 
     public List<logista> validarLogin(String email, String senha) {
 
-        System.out.println("Verificando login.... ");
-        System.out.println("A------ " +logistaRepository.findEmailESenha(email, senha).getFirst().toString());
+        System.out.println("Verificando login.... se é logista");
         return logistaRepository.findEmailESenha(email, senha);
     }
 

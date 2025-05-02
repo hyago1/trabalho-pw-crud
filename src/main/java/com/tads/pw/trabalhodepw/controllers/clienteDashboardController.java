@@ -49,11 +49,10 @@ public class clienteDashboardController {
         produtoService.findAll().forEach(produto -> {produtos.add(produto);});
 
         PrintWriter writer = response.getWriter();
-        produtos.forEach(produto -> {System.out.println(produto);});
         writer.println("<!DOCTYPE html>");
         writer.println("<html lang='pt-br'>");
         writer.println("<head>");
-        writer.println("<meta charset='UTF-8'>");
+        writer.println("<meta charset=\"UTF-8\">");
         writer.println("<meta name='viewport' content='width=device-width, initial-scale=1'>");
         writer.println("<title>Dashboard</title>");
         writer.println("<link rel='stylesheet' href='styles/dashboard.css'>");
@@ -67,7 +66,7 @@ public class clienteDashboardController {
         writer.println("<th>Nome</th>");
         writer.println("<th>Descrição</th>");
         writer.println("<th>Preço</th>");
-        writer.println("<th>Estoque</th>");
+        writer.println("<th>Quantidade</th>");
         writer.println("<th>Ação</th>");
         writer.println("</tr>");
         writer.println("</thead>");
@@ -80,7 +79,7 @@ public class clienteDashboardController {
             writer.println("<td>" + produto.getPreco() + "</td>");
             writer.println("<td>" + produto.getEstoque() + "</td>");
             if (produto.getEstoque() > 0) {
-                writer.println("<td><a href='/addProduto?id="+produto.getId()+"'>Adicionar</a></td>");
+                writer.println("<td><a href='/addProdutoNoCarrinho?id="+produto.getId()+"'>Adicionar</a></td>");
 
             } else {
                 writer.println("<td>Esgotado</td>");

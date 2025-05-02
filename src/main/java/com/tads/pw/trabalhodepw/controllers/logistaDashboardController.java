@@ -40,13 +40,9 @@ public class logistaDashboardController {
         System.out.println(username);
         produtos.clear();
         produtoService.findAll().forEach(produto -> {produtos.add(produto);});
-
-        produtos.forEach(produto -> {System.out.println(produto);});
-
-
         PrintWriter writer = response.getWriter();
 
-        produtos.forEach(produto -> {System.out.println(produto);});
+
         writer.println("<!DOCTYPE html>");
         writer.println("<html lang='pt-br'>");
         writer.println("<head>");
@@ -65,6 +61,7 @@ public class logistaDashboardController {
         writer.println("<th>Descrição</th>");
         writer.println("<th>Preço</th>");
         writer.println("<th>Estoque</th>");
+        writer.println("<th>Ação</th>");
         writer.println("</tr>");
         writer.println("</thead>");
         writer.println("<tbody>");
@@ -75,6 +72,7 @@ public class logistaDashboardController {
             writer.println("<td>" + produto.getDescricao() + "</td>");
             writer.println("<td>" + produto.getPreco() + "</td>");
             writer.println("<td>" + produto.getEstoque() + "</td>");
+            writer.println("<td><a href='/excluirProduto?id="+produto.getId()+"'>Excluir</a></td>");
             writer.println("</tr>");
         }
 

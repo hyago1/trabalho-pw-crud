@@ -43,6 +43,8 @@ public class registerController {
         }else {
 
             clienteService.save(cliente);
+
+            response.sendRedirect("/index.html");
         }
 
     }

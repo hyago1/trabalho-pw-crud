@@ -122,6 +122,64 @@ public class produtoRepository  {
         return produtos;
     }
 
+    public int deleteById(int id) {
+        String sql = "delete from produtos where id = ?";
+        Connection conn = null;
+        // prepares a query
+        PreparedStatement preparedStatement = null;
+
+        try {
+            conn = dbConnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+
+            preparedStatement.execute(); //it is not a query. It is an insert command
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close all connections
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (conn != null) conn.close();
+                return 1;
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+    }
+
+    public int update(produto produto) {
+        String sql = "update produtos set estoque = estoque - ? where id = ?";
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            conn = dbConnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, 1);
+            preparedStatement.setInt(2, produto.getId());
+
+
+            preparedStatement.execute(); //it is not a query. It is an insert command
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close all connections
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (conn != null) conn.close();
+                return 1;
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+
+    }
 }
 
 

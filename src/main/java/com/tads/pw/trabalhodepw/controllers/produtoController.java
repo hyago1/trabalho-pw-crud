@@ -1,11 +1,13 @@
 package com.tads.pw.trabalhodepw.controllers;
 
 import com.tads.pw.trabalhodepw.entity.carrinho;
+import com.tads.pw.trabalhodepw.entity.cliente;
 import com.tads.pw.trabalhodepw.entity.produto;
 import com.tads.pw.trabalhodepw.service.produtoService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +21,13 @@ import java.util.List;
 @Controller
 public class produtoController {
     List<produto> produtos = new ArrayList<produto>();
+    List<produto> produtosC = new ArrayList<produto>();
     @Autowired
     produtoService produtoService;
 
 
-    carrinho carrinho;
+
+
     @RequestMapping(value = "/cadastrarProduto",method = RequestMethod.POST)
     public void cadastrarProduto(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -44,29 +48,54 @@ public class produtoController {
 
     }
 
+    @RequestMapping(value = "/excluirProduto",method = RequestMethod.GET)
+    public void excluirProduto(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-    @RequestMapping(value = "/addProduto",method = RequestMethod.GET)
-    public void addProdutoNoCarrinho(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        carrinho = new carrinho((ArrayList<produto>) produtos);
         int id = Integer.parseInt(request.getParameter("id"));
-        carrinho.addProduto(produtoService.findById(id).getFirst());
+        produtoService.removeProdutoById(id);
+        response.sendRedirect("/logistaDashboard");
+    }
 
-        PrintWriter writer = response.getWriter();
-        produtos.forEach(produto -> {System.out.println(produto);});
+
+    @RequestMapping(value = "/addProdutoNoCarrinho",method = RequestMethod.GET)
+    public void addProdutoNoCarrinho(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+
+
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("cliente") == null) {
+            response.sendRedirect("/login");
+            return;
+        }
+
+
+        carrinho car = (carrinho) session.getAttribute("carrinho");
+        int id = Integer.parseInt(request.getParameter("id"));
+        car.addProduto(produtoService.findById(id).getFirst());
+        session.setAttribute("carrinho", car);
         response.sendRedirect("/dashboard");
     }
-    @RequestMapping(value = "/removeProduto",method = RequestMethod.GET)
+    @RequestMapping(value = "/removeProdutoDoCarrinho",method = RequestMethod.GET)
     public void removeProdutoNoCarrinho(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        carrinho = new carrinho((ArrayList<produto>) produtos);
+
+        HttpSession session = request.getSession(false);
+        carrinho car = (carrinho) session.getAttribute("carrinho");
         int id = Integer.parseInt(request.getParameter("id"));
-        carrinho.removeProduto(id);
-        produtos.forEach(produto -> {System.out.println(produto);});
+        car.removeProduto(id);
+        session.setAttribute("carrinho", car);
         response.sendRedirect("/dashboard");
+
     }
 
 
     @RequestMapping(value = "/carrinho",method = RequestMethod.GET)
     public void verCarrinho(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession(false);
+        carrinho car = (carrinho) session.getAttribute("carrinho");
+
+        int valorTotal=0;
+
         PrintWriter writer = response.getWriter();
         writer.println("<!DOCTYPE html>");
         writer.println("<html lang='pt-br'>");
@@ -90,16 +119,17 @@ public class produtoController {
         writer.println("</tr>");
         writer.println("</thead>");
         writer.println("<tbody>");
-    if (carrinho != null) {
-        for (produto produto : carrinho.getProdutos()) {
+    if (car != null) {
+        for (produto produto : car.getProdutos()) {
 
             writer.println("<tr>");
             writer.println("<td>" + produto.getNome() + "</td>");
             writer.println("<td>" + produto.getDescricao() + "</td>");
             writer.println("<td>" + produto.getPreco() + "</td>");
             writer.println("<td>" + produto.getEstoque() + "</td>");
-            writer.println("<td><a href='/removeProduto?id="+produto.getId()+"'>Remover</a></td>");
+            writer.println("<td><a href='/removeProdutoDoCarrinho?id="+produto.getId()+"'>Remover</a></td>");
             writer.println("</tr>");
+            valorTotal+=produto.getPreco();
      }
     }
 
@@ -107,12 +137,29 @@ public class produtoController {
         writer.println("</table>");
         writer.println("<br>");
         writer.println("<a href='/dashboard'>Voltar</a>");
+        writer.println("<td><a href='/finalizar'>Finalizar Compra</a></td>");
+        writer.println("<span style='text-align:right;'> Valor Total: "+ (double) valorTotal +"</span>");
         writer.println("</body>");
         writer.println("</html>");
 
 
     }
 
+    @RequestMapping(value = "/finalizar",method = RequestMethod.GET)
+    public void finalizarCompra(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession(false);
+        carrinho car = (carrinho) session.getAttribute("carrinho");
+        car.getProdutos().forEach(produto -> {
+            produtoService.update(produto);
+            System.out.println("Comprando = " + produto.getId());
+        });
+        produtosC.clear();
+        carrinho carrinho = new carrinho((ArrayList<produto>) produtosC);
+        session.setAttribute("carrinho", carrinho);
+        PrintWriter writer = response.getWriter();
+        writer.println("<script>alert('Compra finalizada!!'</script>");
+        response.sendRedirect("/dashboard?sucesso=Compra+finalizada");
+    }
 
 
 

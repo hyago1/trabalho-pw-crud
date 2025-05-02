@@ -26,7 +26,6 @@ public class clienteService {
 
         System.out.println("Verificando login.... ");
         System.out.println("email: "+email + "senha: "+ senha);
-        //System.out.println("A busca com " + clienteRepository.findEmailESenha(email, senha).getFirst().toString());
         return clienteRepository.findEmailESenha(email, senha);
     }
 

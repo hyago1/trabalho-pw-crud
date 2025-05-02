@@ -1,5 +1,6 @@
 package com.tads.pw.trabalhodepw.controllers;
 
+import com.tads.pw.trabalhodepw.entity.carrinho;
 import com.tads.pw.trabalhodepw.entity.cliente;
 import com.tads.pw.trabalhodepw.entity.logista;
 import com.tads.pw.trabalhodepw.entity.produto;
@@ -32,6 +33,9 @@ public class LoginController {
     @Autowired
     produtoService produtoService;
 
+
+
+
     @RequestMapping(value ="/login",method= RequestMethod.POST)
     public void getLoginData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -42,11 +46,23 @@ public class LoginController {
         if (!clienteService.validarLogin(email,password).isEmpty() ){
             cliente cliente = clienteService.validarLogin(email, password).getFirst();
             HttpSession session = request.getSession();
-            session.setAttribute("cliente", cliente); //
+
+
+            // Limpa qualquer carrinho anterior
+            session.removeAttribute("carrinho");
+            produtos.clear();
+            carrinho carrinho = new carrinho((ArrayList<produto>) produtos);
+            // Cria um novo carrinho vazio para este cliente
+            session.setAttribute("carrinho", carrinho);
+
+            // Armazena o cliente
+            session.setAttribute("cliente", cliente);
             response.sendRedirect("/dashboard");
-        }
-        else if (!logistaService.validarLogin(email,password).isEmpty() ){
+
+        } else if (!logistaService.validarLogin(email,password).isEmpty() ){
+            System.out.println("Logissss");
             logista logista = logistaService.validarLogin(email, password).getFirst();
+
             HttpSession session = request.getSession();
             session.setAttribute("logista", logista); //
             response.sendRedirect("/logistaDashboard");

@@ -18,6 +18,14 @@ public class produtoService {
        return produtoRepository.save(produto);
     }
 
+    public int update(produto produto) {
+        return produtoRepository.update(produto);
+    }
+    public void removeProdutoById(Integer idProduto) {
+
+        produtoRepository.deleteById(idProduto);
+    }
+
     public List<produto> findById(Integer id) {
         return produtoRepository.findById(id);
     }
