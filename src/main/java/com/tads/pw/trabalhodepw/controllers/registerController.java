@@ -2,8 +2,7 @@ package com.tads.pw.trabalhodepw.controllers;
 
 
 import com.tads.pw.trabalhodepw.entity.cliente;
-import com.tads.pw.trabalhodepw.entity.produto;
-import com.tads.pw.trabalhodepw.service.usuarioService;
+import com.tads.pw.trabalhodepw.service.clienteService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +20,7 @@ public class registerController {
 
 
     @Autowired
-    usuarioService usuarioService;
+    clienteService clienteService;
 
 
 
@@ -36,14 +35,14 @@ public class registerController {
         cliente cliente = new cliente(username,email, password);
         System.out.println(username);
 
-        if (usuarioService.verificarEmail(email)){
+        if (!clienteService.verificarEmail(email).isEmpty()){
 
             PrintWriter writer = response.getWriter();
             writer.println("<h1>Usuario ja existe</h1>");
 
         }else {
 
-            usuarioService.save(cliente);
+            clienteService.save(cliente);
         }
 
     }

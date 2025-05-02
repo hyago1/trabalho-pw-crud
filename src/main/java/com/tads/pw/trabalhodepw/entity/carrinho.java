@@ -1,20 +1,18 @@
 package com.tads.pw.trabalhodepw.entity;
+import com.tads.pw.trabalhodepw.entity.produto;
 
-
-import lombok.Getter;
-import lombok.Setter;
 import java.util.ArrayList;
 
-@Getter
-@Setter
+
+
 public class carrinho {
 
-    ArrayList<produto> produtos;
     public carrinho(ArrayList<produto> produtos) {
         super();
         this.produtos = produtos;
     }
 
+    ArrayList<produto> produtos;
     public ArrayList<produto> getProdutos() {
         return produtos;
     }
@@ -34,10 +32,6 @@ public class carrinho {
         produto p = getProduto(id);
         produtos.remove(p);
     }
-    public void addProduto (produto p){
-        produtos.add(p);
+    public void addProduto (produto p){produtos.add(p);
     }
 }
-
-
-

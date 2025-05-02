@@ -14,6 +14,9 @@ public class produtoService {
     @Autowired
     private  produtoRepository produtoRepository;
 
+    public int save(produto produto) {
+       return produtoRepository.save(produto);
+    }
 
     public List<produto> findAll() {
         return produtoRepository.findAll();
