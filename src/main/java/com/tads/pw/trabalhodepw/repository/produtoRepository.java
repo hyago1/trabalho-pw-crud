@@ -82,7 +82,49 @@ public class produtoRepository  {
         }
         return 0;
     }
+
+
+    public List<produto> findById(int id) { // listAll (if the database is huge, consider the use of pagination)
+        List<produto> produtos = new ArrayList<produto>();
+        String sql = "select * from produtos where id = ?";
+        Connection conn = null;
+        // prepares a query
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null; // stores the query result
+
+        try {
+            conn =dbConnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                produto produto = new produto();
+                produto.setId(resultSet.getInt("id")); // "id" is the column at postgres
+                produto.setNome(resultSet.getString("nome")); // "nome" is the column at postgres
+                produto.setPreco(resultSet.getInt("preco")); // "preco" is the column at postgres
+                produto.setDescricao(resultSet.getString("descricao")); // "descricao" is the column at postgres
+                produto.setEstoque(resultSet.getInt("estoque"));
+                produtos.add(produto); // add the object filled with database data to products list
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close all connections
+            try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return produtos;
     }
+
+}
+
+
 
 
 

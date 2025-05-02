@@ -6,6 +6,8 @@ import com.tads.pw.trabalhodepw.entity.logista;
 import com.tads.pw.trabalhodepw.entity.produto;
 import com.tads.pw.trabalhodepw.service.produtoService;
 import com.tads.pw.trabalhodepw.service.clienteService;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,7 +35,7 @@ public class clienteDashboardController {
     produtoService produtoService;
 
     @RequestMapping(value="/dashboard", method = RequestMethod.GET)
-    public void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
 
         Cookie c = new Cookie("login", "dw");
@@ -78,7 +80,8 @@ public class clienteDashboardController {
             writer.println("<td>" + produto.getPreco() + "</td>");
             writer.println("<td>" + produto.getEstoque() + "</td>");
             if (produto.getEstoque() > 0) {
-                writer.println("<td><button>Adicionar</button></td>");
+                writer.println("<td><a href='/addProduto?id="+produto.getId()+"'>Adicionar</a></td>");
+
             } else {
                 writer.println("<td>Esgotado</td>");
             }
@@ -89,6 +92,7 @@ public class clienteDashboardController {
         writer.println("</table>");
         writer.println("<br>");
         writer.println("<a href='/index.html'>Sair</a>");
+        writer.println("<a href='/carrinho'>Ver carrinho</a>");
         writer.println("</body>");
         writer.println("</html>");
 

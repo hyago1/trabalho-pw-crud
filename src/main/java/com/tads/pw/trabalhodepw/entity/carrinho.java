@@ -1,5 +1,4 @@
 package com.tads.pw.trabalhodepw.entity;
-import com.tads.pw.trabalhodepw.entity.produto;
 
 import java.util.ArrayList;
 
@@ -7,12 +6,12 @@ import java.util.ArrayList;
 
 public class carrinho {
 
+    ArrayList<produto> produtos;
+
     public carrinho(ArrayList<produto> produtos) {
         super();
         this.produtos = produtos;
     }
-
-    ArrayList<produto> produtos;
     public ArrayList<produto> getProdutos() {
         return produtos;
     }
