@@ -51,7 +51,6 @@ public class produtoRepository  {
         return produtos;
     }
 
-
     public int save(produto produto) {
         String sql = "insert into produtos (preco, nome, descricao, estoque)" + " values (?, ?, ?,?)";
         Connection conn = null;
@@ -82,7 +81,6 @@ public class produtoRepository  {
         }
         return 0;
     }
-
 
     public List<produto> findById(int id) { // listAll (if the database is huge, consider the use of pagination)
         List<produto> produtos = new ArrayList<produto>();

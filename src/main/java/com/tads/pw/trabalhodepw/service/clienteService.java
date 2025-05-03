@@ -13,14 +13,6 @@ public class clienteService {
 
     @Autowired
     private clienteRepository clienteRepository;
-//
-//    public List<cliente> findAll() {
-//        return usuarioRepository.findAll();
-//    }
-
-//    //public cliente findById(Long id) {
-//        return usuarioRepository.findById(id).get();
-//    }
 
     public List<cliente> validarLogin(String email, String senha) {
 
@@ -35,23 +27,14 @@ public class clienteService {
         return clienteRepository.findEmail(email);
     }
 
-
     public List<cliente> retornarUsernameByEmail(String email) {
         System.out.println("Verificando login.... ");
         System.out.println( clienteRepository.findEmail(email));
         return  clienteRepository.findEmail(email);
     }
 
-//
-//    public void delete(cliente cliente) {
-//        usuarioRepository.delete(cliente);
-//    }
-//
     public void save(cliente cliente) {
         clienteRepository.save(cliente);
     }
-//
-//    public cliente update(cliente cliente) {
-//        return usuarioRepository.save(cliente);
-//    }
+
 }

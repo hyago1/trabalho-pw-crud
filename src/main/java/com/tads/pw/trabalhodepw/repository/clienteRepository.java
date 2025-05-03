@@ -53,7 +53,7 @@ public class clienteRepository {
         }
         return clientes;
     }
-        public List<cliente> findEmail(String email) {
+     public List<cliente> findEmail(String email) {
             List<cliente> clientes = new ArrayList<cliente>();
             String sql = "select * from clientes where email = ?";
             Connection conn = null;
@@ -94,9 +94,7 @@ public class clienteRepository {
             }
             return clientes;
         }
-
-
-        public int save(cliente cliente) {
+     public int save(cliente cliente) {
             String sql = "insert into clientes (nome, email, senha)" + " values (?, ?, ?)";
             Connection conn = null;
             // prepares a query

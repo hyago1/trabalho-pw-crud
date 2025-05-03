@@ -33,11 +33,6 @@ public class logistaService {
         return  logistaRepository.findEmail(email);
     }
 
-    //
-//    public void delete(cliente cliente) {
-//        usuarioRepository.delete(cliente);
-//    }
-//
     public void save(logista logista) {
         logistaRepository.save(logista);
     }

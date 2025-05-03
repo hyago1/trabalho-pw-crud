@@ -1,10 +1,6 @@
 package com.tads.pw.trabalhodepw.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
-
-
 public class cliente {
 
 

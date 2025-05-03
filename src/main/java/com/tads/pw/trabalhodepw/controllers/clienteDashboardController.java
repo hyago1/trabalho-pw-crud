@@ -96,13 +96,7 @@ public class clienteDashboardController {
         writer.println("</html>");
 
 
-
-
-
     }
-
-
-
 
 
 }

@@ -94,8 +94,6 @@ public class logistaRepository {
         }
         return logistas;
     }
-
-
     public int save(logista logista) {
         String sql = "insert into clientes (nome, email, senha)" + " values (?, ?, ?)";
         Connection conn = null;
